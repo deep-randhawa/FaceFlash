@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="randhawa.deep.faceflash" >
+    package="randhawa.deep.faceflash">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"
-        ></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/CupcakeDialog" >
+            android:theme="@style/CupcakeDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,20 +22,23 @@
         </activity>
         <activity
             android:name=".Activities.MenuActivity"
-            android:label="@string/title_activity_menu" >
-        </activity>
+            android:label="@string/title_activity_menu"></activity>
         <activity
             android:name=".Activities.ModeChoice"
-            android:label="@string/title_activity_mode_choice" >
-        </activity>
+            android:label="@string/title_activity_mode_choice"></activity>
         <activity
             android:name=".Activities.AboutActivity"
-            android:label="@string/title_activity_about" >
-        </activity>
+            android:label="@string/title_activity_about"></activity>
         <activity
             android:name=".Activities.Question1Activity"
-            android:label="@string/title_activity_question1" >
-        </activity>
+            android:label="@string/title_activity_question1"></activity>
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name"></activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_ID"></meta-data>
     </application>
 
 </manifest>
