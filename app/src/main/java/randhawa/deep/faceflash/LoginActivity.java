@@ -74,6 +74,7 @@ public class LoginActivity extends ActionBarActivity {
                // Gets the username.
                userName = profilemap.getFirstName() + " " +
                        profilemap.getLastName();
+               String url = profile.getProfileImageURL();
                sender(userName, getApplicationContext());
            }
 
