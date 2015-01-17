@@ -1,19 +1,31 @@
 package randhawa.deep.faceflash;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.Session;
 
+public class LoginActivity extends FragmentActivity {
 
-public class LoginActivity extends ActionBarActivity {
+    private FBLoginFragment fbLoginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        if (savedInstanceState == null) {
+            // Add the fragment on initial activity setup
+            fbLoginFragment = new FBLoginFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, fbLoginFragment)
+                    .commit();
+        } else {
+            // Or set up the fragment from restored state info
+            fbLoginFragment = (FBLoginFragment) getSupportFragmentManager()
+                    .findFragmentById(android.R.id.content);
+        }
     }
 
 
