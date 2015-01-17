@@ -6,12 +6,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.Session;
+
 
 public class LoginActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setContentView(R.layout.activity_main);
 
         try {
@@ -24,6 +27,9 @@ public class LoginActivity extends ActionBarActivity {
             startActivity(intent);
             finish();
         }
+=======
+        setContentView(R.layout.activity_login);
+>>>>>>> 25370275245822409143cd5e2c1a905730da05c7
     }
 
 
