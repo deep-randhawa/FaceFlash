@@ -1,4 +1,4 @@
-package randhawa.deep.faceflash.Activities;
+package randhawa.deep.faceflash;
 
 import android.animation.Animator;
 import android.content.Intent;
