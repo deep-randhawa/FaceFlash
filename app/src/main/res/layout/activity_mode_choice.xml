@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonMode1"
         android:text="Face Recognition"
+        android:onClick="openQuestion"
         android:layout_below="@id/ScreenTitle"/>
 
     <Button
@@ -24,12 +25,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonMode2"
         android:layout_below="@id/buttonMode1"
-        android:text="Name recognition"/>
+        android:text="Name recognition"
+        android:onClick="openQuestion"
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonMode3"
         android:layout_below="@id/buttonMode2"
-        android:text="Other mode"/>
+        android:text="Other mode"
+        android:onClick="openQuestion"
+        />
 </RelativeLayout>
