@@ -88,11 +88,8 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="facebook-android-sdk-3.21.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
-<<<<<<< HEAD
-    <orderEntry type="library" exported="" name="socialauth-4.4" level="project" />
-=======
     <orderEntry type="library" exported="" name="bolts-android-1.1.2" level="project" />
->>>>>>> 25370275245822409143cd5e2c1a905730da05c7
+    <orderEntry type="library" exported="" name="socialauth-4.4" level="project" />
   </component>
 </module>
 

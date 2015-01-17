@@ -1,10 +1,15 @@
 package randhawa.deep.faceflash.Activities;
 
+import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 
+import randhawa.deep.faceflash.CorrectAnswerActivity;
 import randhawa.deep.faceflash.R;
 
 
@@ -37,5 +42,28 @@ public class Question1Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkAnswer(View view) {
+        // previously invisible view
+        View myView = findViewById(R.id.correctView);
+
+        // get the center for the clipping circle
+        int cx = (myView.getLeft() + myView.getRight()) / 2;
+        int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+
+        // make the view visible and start the animation
+        myView.setVisibility(View.VISIBLE);
+        anim.start();
+        Intent intent = new Intent(this, CorrectAnswerActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
