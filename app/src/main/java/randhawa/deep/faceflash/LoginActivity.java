@@ -75,6 +75,7 @@ public class LoginActivity extends ActionBarActivity {
                userName = profilemap.getFirstName() + " " +
                        profilemap.getLastName();
                String url = profile.getProfileImageURL();
+               System.out.println(url);
                sender(userName, getApplicationContext());
            }
 
@@ -108,6 +109,13 @@ public class LoginActivity extends ActionBarActivity {
                    for (Contact c : contactList) {
                        Log.d("Custom-UI", "First Name = " + c.getFirstName());
                        Log.d("Custom-UI", "Last Name = " + c.getLastName());
+                       if (c.getProfileImageURL() != null) {
+                           String url = c.getProfileImageURL();
+                           System.out.println(url);
+                       }
+                       else {
+                           System.out.println("Tussed out");
+                       }
                    }
                }
            }
