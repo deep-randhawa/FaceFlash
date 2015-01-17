@@ -1,40 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="randhawa.deep.faceflash.Activities.ModeChoice">
+    tools:context="randhawa.deep.faceflash.ModeChoice">
+
     <TextView
+        android:id="@+id/ScreenTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:text="Choose mode:"
-        android:id="@+id/ScreenTitle"
-        android:textSize="40sp"
-        android:layout_centerHorizontal="true" />
+        android:textSize="40sp" />
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/buttonMode1"
-        android:text="Face Recognition"
-        android:onClick="openQuestion"
-        android:layout_below="@id/ScreenTitle"/>
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ScreenTitle"
+        android:onClick="openQuestion"
+        android:text="Face Recognition" />
+
+    <Button
         android:id="@+id/buttonMode2"
-        android:layout_below="@id/buttonMode1"
-        android:text="Name recognition"
-        android:onClick="openQuestion"
-        />
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonMode3"
-        android:layout_below="@id/buttonMode2"
-        android:text="Other mode"
+        android:layout_below="@id/buttonMode1"
         android:onClick="openQuestion"
-        />
+        android:text="Name recognition" />
+
+    <Button
+        android:id="@+id/buttonMode3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonMode2"
+        android:onClick="openQuestion"
+        android:text="Other mode" />
 </RelativeLayout>

@@ -1,27 +1,26 @@
-package randhawa.deep.faceflash.Activities;
+package randhawa.deep.faceflash;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import randhawa.deep.faceflash.R;
 
-
-public class AboutActivity extends ActionBarActivity {
+public class MenuActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_menu);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_about, menu);
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
         return true;
     }
 
@@ -40,10 +39,13 @@ public class AboutActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MenuActivity.class);
+    public void openPlayScreen(View view) {
+        Intent intent = new Intent(this, ModeChoice.class);
         startActivity(intent);
-        super.onBackPressed();
+        finish();
+    }
+
+    public void openAboutScreen(View view) {
+
     }
 }
