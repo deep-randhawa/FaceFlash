@@ -1,4 +1,4 @@
-package randhawa.deep.faceflash.Activities;
+package randhawa.deep.faceflash;
 
 import android.animation.Animator;
 import android.content.Intent;
@@ -8,9 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-
-import randhawa.deep.faceflash.CorrectAnswerActivity;
-import randhawa.deep.faceflash.R;
 
 
 public class Question1Activity extends ActionBarActivity {

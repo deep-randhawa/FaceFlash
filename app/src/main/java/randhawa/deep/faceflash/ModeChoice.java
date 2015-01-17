@@ -1,27 +1,31 @@
-package randhawa.deep.faceflash.Activities;
+package randhawa.deep.faceflash;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import randhawa.deep.faceflash.R;
 
+public class ModeChoice extends ActionBarActivity {
+    /*
+    IDEAS:
+    -take picture of an entry from array/database/web?
+    -take 4 random names
 
-public class AboutActivity extends ActionBarActivity {
-
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_mode_choice);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_about, menu);
+        getMenuInflater().inflate(R.menu.menu_mode_choice, menu);
         return true;
     }
 
@@ -45,5 +49,10 @@ public class AboutActivity extends ActionBarActivity {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
         super.onBackPressed();
+    }
+
+    public void openQuestion(View view) {
+        Intent intent = new Intent(this, Question1Activity.class);
+        startActivity(intent);
     }
 }

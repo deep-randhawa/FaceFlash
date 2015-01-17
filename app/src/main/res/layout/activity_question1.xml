@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="randhawa.deep.faceflash.Activities.Question1Activity">
+tools:context="randhawa.deep.faceflash.Question1Activity">
 
 
 <LinearLayout
@@ -72,6 +72,7 @@ tools:context="randhawa.deep.faceflash.Activities.Question1Activity">
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
+
 <View
     android:layout_width="match_parent"
     android:layout_height="match_parent"
