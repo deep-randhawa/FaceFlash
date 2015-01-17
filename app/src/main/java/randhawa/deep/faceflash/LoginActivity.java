@@ -3,9 +3,10 @@ package randhawa.deep.faceflash;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import org.brickred.socialauth.Contact;
@@ -17,16 +18,36 @@ import org.brickred.socialauth.android.SocialAuthListener;
 
 import java.util.List;
 
+import Fragments.FBLoginFragment;
 
-public class LoginActivity extends ActionBarActivity {
+
+public class LoginActivity extends FragmentActivity {
     SocialAuthAdapter adapter;
     Button linkedIn;
     String userName = "";
+    private FBLoginFragment fbLoginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            fbLoginFragment = new FBLoginFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, fbLoginFragment)
+                    .commit();
+        } else {
+            fbLoginFragment = (FBLoginFragment) getSupportFragmentManager()
+                    .findFragmentById(android.R.id.content);
+        }
+
         setContentView(R.layout.activity_login);
+
+        // resize the fragment
+
+
+        // linked setup
         adapter = new SocialAuthAdapter(new ResponseListener());
         linkedIn = (Button) findViewById(R.id.linkedin);
 
@@ -38,12 +59,12 @@ public class LoginActivity extends ActionBarActivity {
                         SocialAuthAdapter.Provider.LINKEDIN);
             }
         });
+
     }
 
 
     // Calls the linkedIn API.
     public class ResponseListener implements DialogListener {
-
         // Defines the event when the login was successful.
         @Override
         public void onComplete(Bundle values) {
