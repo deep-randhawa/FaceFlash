@@ -7,11 +7,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/unnamed"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/CupcakeDialog">
             <intent-filter>
@@ -21,24 +21,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MenuActivity"
-            android:label="@string/title_activity_menu"></activity>
-        <activity
-            android:name=".Activities.ModeChoice"
-            android:label="@string/title_activity_mode_choice"></activity>
-        <activity
-            android:name=".Activities.AboutActivity"
-            android:label="@string/title_activity_about"></activity>
-        <activity
-            android:name=".Activities.Question1Activity"
-            android:label="@string/title_activity_question1"></activity>
-        <activity
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_ID"></meta-data>
+
+        <activity
+            android:name=".HomeScreenActivity"
+            android:label="HomeScreen">
+            <intent-filter>
+                <action android:name="android.support.PARENT_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu">
+
+        </activity>
+        <activity
+            android:name=".ModeChoice"
+            android:label="@string/title_activity_mode_choice"></activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"></activity>
+        <activity
+            android:name=".Question1Activity"
+            android:label="@string/title_activity_question1"></activity>
+        <activity
+            android:name=".CorrectAnswerActivity"
+            android:label="@string/title_activity_correct_answer"></activity>
     </application>
 
 </manifest>
