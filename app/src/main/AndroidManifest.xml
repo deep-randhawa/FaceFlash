@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="randhawa.deep.faceflash" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"
+        ></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -14,15 +14,27 @@
             android:name=".Activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/CupcakeDialog" >
-        </activity>
-        <activity
-            android:name=".Activities.MenuActivity"
-            android:label="@string/title_activity_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.HomeScreenActivity"
+            android:label="HomeScreen" >
+            <intent-filter>
+                <action android:name="android.support.PARENT_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+=======
+        <activity
+            android:name=".Activities.MenuActivity"
+            android:label="@string/title_activity_menu" >
         </activity>
         <activity
             android:name=".Activities.ModeChoice"
