@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="randhawa.deep.faceflash.Question1Activity">
+    tools:context="randhawa.deep.faceflash.Activities.Question1Activity">
 
 
 

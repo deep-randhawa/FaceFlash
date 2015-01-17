@@ -1,42 +1,33 @@
-package randhawa.deep.faceflash;
+package randhawa.deep.faceflash.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.facebook.Session;
+import randhawa.deep.faceflash.R;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class ModeChoice extends ActionBarActivity {
+    /*
+    IDEAS:
+    -take picture of an entry from array/database/web?
+    -take 4 random names
 
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-        setContentView(R.layout.activity_main);
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            Intent intent = new Intent(this, MenuActivity.class);
-            startActivity(intent);
-            finish();
-        }
-=======
-        setContentView(R.layout.activity_login);
->>>>>>> 25370275245822409143cd5e2c1a905730da05c7
+        setContentView(R.layout.activity_mode_choice);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_mode_choice, menu);
         return true;
     }
 
@@ -53,5 +44,15 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+        super.onBackPressed();
+    }
+
+    public void openQuestion(View view) {
     }
 }
