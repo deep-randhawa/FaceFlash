@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">FaceFlash</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="linked_in">Login via Linkedin </string>
 
