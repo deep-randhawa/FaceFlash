@@ -1,6 +1,8 @@
 package Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,16 +18,15 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.Arrays;
 
+import randhawa.deep.faceflash.HomeScreenActivity;
 import randhawa.deep.faceflash.R;
 
 public class FBLoginFragment extends Fragment {
 
     private final static String TAG = "FBLoginFragment";
+    LoginButton loginButton;
     private Session.StatusCallback callback = new Session.StatusCallback() {
         @Override
         public void call(Session session, SessionState sessionState, Exception e) {
@@ -104,20 +105,24 @@ public class FBLoginFragment extends Fragment {
             Request request = new Request(session, "me/taggable_friends", null, HttpMethod.GET, new Request.Callback() {
                 @Override
                 public void onCompleted(Response response) {
-                    try {
-                        JSONArray jsonArray = new JSONArray(response.toString());
-                        System.out.println(jsonArray);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                    Log.d("Response", response.toString());
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(0)).commit();
 
+                    // takes us to homescreen
+                    Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
+                    startActivity(intent);
+
+                    SharedPreferences prefs = getActivity().getSharedPreferences("randhawa.deep.faceflash", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("FB_Response", response.toString());
+                    editor.commit();
+                }
             });
             request.executeAsync();
+
         } else if (sessionState.isClosed()) {
             Log.d(TAG, "Logged out...");
         }
     }
-
-
 }

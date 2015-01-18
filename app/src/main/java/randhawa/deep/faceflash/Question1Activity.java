@@ -1,7 +1,10 @@
 package randhawa.deep.faceflash;
+
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,18 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
-import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+
+import java.util.ArrayList;
+
 
 public class Question1Activity extends ActionBarActivity {
 
-    SharedPreferences sharedPreferences;
-    Button b0,b1,b2,b3;
-    private String gameType; 	//type of game (facial rec or name rec)
-    private int streak;  //current score streak
     public int highScore;      //highscore (need to somehow load this from device memory)
+    SharedPreferences sharedPreferences;
+    Button b0, b1, b2, b3;
+    private String gameType;    //type of game (facial rec or name rec)
+    private int streak;  //current score streak
     private Profile[] profileArray; //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
     private int size;            //size of profile array
     private int[] profiles;      //array of index of theseprofiles
@@ -51,11 +57,10 @@ public class Question1Activity extends ActionBarActivity {
         String name;
         String picture;
         profileArray = new Profile[size];
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             name = sharedPreferences.getString("Name" + i, "Borat");
-            picture = sharedPreferences.getString("ImageUrl"+i, "url");
+            picture = sharedPreferences.getString("ImageUrl" + i, "url");
             profileArray[i] = new Profile(name, picture);
-
         }
 
         int roundCount = 0; //keeps track of the rounds if we want to add a status bar
@@ -63,7 +68,7 @@ public class Question1Activity extends ActionBarActivity {
         correct = this.playQuestion();
         this.askNext();
 
-        while (next == true)   {
+        while (next == true) {
             this.playQuestion();
             this.askNext();
             roundCount += 1;
@@ -72,6 +77,20 @@ public class Question1Activity extends ActionBarActivity {
                 statusBar();
                 roundCount = 0;
             }
+        }
+
+        sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
+        ArrayList<Profile> arrayList = new ArrayList<Profile>();
+        String response = sharedPreferences.getString("FB_Response", null);
+        while (response.indexOf("https") != -1) {
+            response = response.substring(response.indexOf("https"));
+            String url = response.substring(response.indexOf("https"), response.indexOf("\""));
+            response = response.substring(response.indexOf("name") + "name".length() + 3);
+
+            String userName = response.substring(0, response.indexOf("\""));
+            response = response.substring(response.indexOf("\""));
+            Profile newPerson = new Profile(userName, url);
+            arrayList.add(newPerson);
         }
     }
 
@@ -105,17 +124,17 @@ public class Question1Activity extends ActionBarActivity {
     }
 
     public Profile generateQuestion() {
-        return profileArray[(int) (Math.random()*size)];
+        return profileArray[(int) (Math.random() * size)];
     }
 
-    public Profile[] generateChoices(Profile retrievedProfile){
-        int seed = (int) (Math.random()*4);
+    public Profile[] generateChoices(Profile retrievedProfile) {
+        int seed = (int) (Math.random() * 4);
         Profile[] choice = new Profile[4];
 
-        choice[0] =  generateRandom(retrievedProfile, retrievedProfile, retrievedProfile, retrievedProfile);
-        choice[1] =  generateRandom(retrievedProfile, choice[0], retrievedProfile, retrievedProfile);
-        choice[2] =  generateRandom(retrievedProfile, choice[0], choice[1], retrievedProfile);
-        choice[3] =  generateRandom(retrievedProfile, choice[0], choice[1], choice[2]);
+        choice[0] = generateRandom(retrievedProfile, retrievedProfile, retrievedProfile, retrievedProfile);
+        choice[1] = generateRandom(retrievedProfile, choice[0], retrievedProfile, retrievedProfile);
+        choice[2] = generateRandom(retrievedProfile, choice[0], choice[1], retrievedProfile);
+        choice[3] = generateRandom(retrievedProfile, choice[0], choice[1], choice[2]);
 
         choice[seed] = retrievedProfile;
 
@@ -132,15 +151,15 @@ public class Question1Activity extends ActionBarActivity {
                 index = j;
         }
 
-        if ((correct == false) && ( index+1 < size)) {
+        if ((correct == false) && (index + 1 < size)) {
             streak = 0;
             temp = profile;
-            profileArray[index+1] = profile;
+            profileArray[index + 1] = profile;
             profileArray[index] = temp;
-        } else if ((index-1) >= 0) {
+        } else if ((index - 1) >= 0) {
             streak = streak + 1;
-            temp = profileArray[index-1];
-            profiles[index-1] = profiles[index];
+            temp = profileArray[index - 1];
+            profiles[index - 1] = profiles[index];
             profileArray[index] = temp;
         }
 
@@ -151,18 +170,18 @@ public class Question1Activity extends ActionBarActivity {
         Profile temp;
 
         for (int i = 0; i < profileMemory.length - 1; i++) {
-            temp = profileMemory[i] ;
+            temp = profileMemory[i];
             profileMemory[i] = profile;
-            profileMemory[i+1] = temp;
+            profileMemory[i + 1] = temp;
         }
     }
 
     public Profile generateRandom(Profile a, Profile b, Profile c, Profile d) {
 
-        Profile generated = profileArray[(int)(Math.random()*size)];
+        Profile generated = profileArray[(int) (Math.random() * size)];
 
         while ((generated == a) || (generated == b) || (generated == c) || (generated == d))
-            generated = profileArray[(int)(Math.random()*size)];
+            generated = profileArray[(int) (Math.random() * size)];
 
         return generated;
 
@@ -178,20 +197,21 @@ public class Question1Activity extends ActionBarActivity {
 
     private boolean isRepeat(Profile generatedProfile) {
 
-        for (int i = 0; i < profileMemory.length; i++){
+        for (int i = 0; i < profileMemory.length; i++) {
             if (profileMemory[i] == generatedProfile)
                 return true;
         }
 
         return false;
     }
-    public void buttonClicked(View view){
-        Button button = (Button)findViewById(view.getId());
-        
+
+    public void buttonClicked(View view) {
+        Button button = (Button) findViewById(view.getId());
+
 
     }
 
-    private void statusBar(){
+    private void statusBar() {
         int red = 0;
         int yellow = 0;
         int green = 0;
@@ -216,25 +236,24 @@ public class Question1Activity extends ActionBarActivity {
             System.out.println("Congratulations! You vaguely recognize everyone in your binder. Keep up the good work! ");
         }
 
-        if (red >= (size*.5) ) {
+        if (red >= (size * .5)) {
             System.out.println("Congratulations! You vaguely recognize half of everyone in your binder. Keep up the good work! ");
         }
 
-        if (green == size ) {
+        if (green == size) {
             System.out.println("CONGRATULATIONS. You have master memory.");
         }
     }
 
 
-    public int generateNumber(){
+    public int generateNumber() {
         double random = Math.random();
         int element;
         int count = sharedPreferences.getInt("Count", 0);
-        if (random < 0.5){
-            element = (int) ((random)*(count/30));
-        }
-        else {
-            element = (int) ((random)*(count+1));
+        if (random < 0.5) {
+            element = (int) ((random) * (count / 30));
+        } else {
+            element = (int) ((random) * (count + 1));
         }
 
         return element;
@@ -274,13 +293,13 @@ public class Question1Activity extends ActionBarActivity {
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
 
         // create the animator for this view (the start radius is zero)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
             // make the view visible and start the animation
             myView.setVisibility(View.VISIBLE);
             anim.start();
-        } else{
+        } else {
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.setInterpolator(new AccelerateInterpolator()); //add this
             fadeIn.setDuration(1000);
@@ -291,4 +310,15 @@ public class Question1Activity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
+
+
+    public void wrongAnswer(View view) {
+        Button button = (Button) findViewById(view.getId());
+
+        button.setBackgroundColor(Color.parseColor("#B71C1C"));
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+
+    }
+
 }
