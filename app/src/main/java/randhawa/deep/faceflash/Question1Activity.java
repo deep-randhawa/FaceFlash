@@ -1,7 +1,13 @@
 package randhawa.deep.faceflash;
+
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
-import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,13 +31,15 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import java.util.ArrayList;
+
+
 public class Question1Activity extends ActionBarActivity {
 
     SharedPreferences sharedPreferences;
-    Button b0, b1, b2, b3;
-    private String gameType;    //type of game (facial rec or name rec)
+    Button b0,b1,b2,b3;
+    private String gameType; 	//type of game (facial rec or name rec)
     private int streak;  //current score streak
-    public int highScore;      //highscore (need to somehow load this from device memory)
     private Profile[] profileArray; //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
     private int size;            //size of profile array
     private int[] profiles;      //array of index of theseprofiles
@@ -87,6 +94,23 @@ public class Question1Activity extends ActionBarActivity {
         int roundCount = 0; //keeps track of the rounds if we want to add a status bar
 
         playQuestion();
+        // gets profiles from facebook
+        sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
+        ArrayList<Profile> arrayList = new ArrayList<Profile>();
+        String response = sharedPreferences.getString("FB_Response", null);
+        while (response.indexOf("https") != -1) {
+            response = response.substring(response.indexOf("https"));
+            String url = response.substring(response.indexOf("https"), response.indexOf("\""));
+            response = response.substring(response.indexOf("name") + "name".length() + 3);
+
+            String userName = response.substring(0, response.indexOf("\""));
+            response = response.substring(response.indexOf("\""));
+            Profile newPerson = new Profile(userName, url);
+            arrayList.add(newPerson);
+        }
+
+        correct = this.playQuestion();
+        this.askNext();
 
 
     }
