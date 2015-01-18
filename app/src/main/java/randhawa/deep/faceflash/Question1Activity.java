@@ -1,4 +1,5 @@
 package randhawa.deep.faceflash;
+
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,10 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -25,30 +22,25 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
 import java.util.ArrayList;
 
 
 public class Question1Activity extends ActionBarActivity {
 
+    public int highScore;      //highscore (need to somehow load this from device memory)
     SharedPreferences sharedPreferences;
     Button b0, b1, b2, b3;
-    private String gameType;    //type of game (facial rec or name rec)
-    private int streak;  //current score streak
-    public int highScore;      //highscore (need to somehow load this from device memory)
-    private ArrayList<Profile> profileArray = new ArrayList<>(); //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
-    private int size;            //size of profile array
-    private int[] profiles;      //array of index of theseprofiles
-    private Profile[] profileMemory; //remembers the last 5 profiles
     Profile retrievedProfile;
     String textOnClicked;
     ImageView questionImage;
     Boolean next;
+    private String gameType;    //type of game (facial rec or name rec)
+    private int streak;  //current score streak
+    private ArrayList<Profile> profileArray = new ArrayList<>(); //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
+    private int size;            //size of profile array
+    private int[] profiles;      //array of index of theseprofiles
+    private Profile[] profileMemory; //remembers the last 5 profiles
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +57,7 @@ public class Question1Activity extends ActionBarActivity {
         questionImage = (ImageView) findViewById(R.id.qImage);
         try {
             Intent intent = getIntent();
-            if (intent.getBooleanExtra("Correct", false)){
+            if (intent.getBooleanExtra("Correct", false)) {
                 playQuestion();
                 return;
             }
@@ -84,7 +76,7 @@ public class Question1Activity extends ActionBarActivity {
         //populate array of prototypes
         String name;
         String picture;
-        for (int i = 0; i < profileArray.size(); i++) {
+        for (int i = 0; i < size; i++) {
             name = sharedPreferences.getString("Name" + i, "Borat");
             picture = sharedPreferences.getString("ImageUrl" + i, "url");
             profileArray.add(new Profile(name, picture));
@@ -95,15 +87,17 @@ public class Question1Activity extends ActionBarActivity {
         // gets profiles from facebook
         sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
         String response = sharedPreferences.getString("FB_Response", null);
-        while (response.indexOf("https") != -1) {
-            response = response.substring(response.indexOf("https"));
-            String url = response.substring(response.indexOf("https"), response.indexOf("\""));
-            response = response.substring(response.indexOf("name") + "name".length() + 3);
+        if (response != null) {
+            while (response.indexOf("https") != -1) {
+                response = response.substring(response.indexOf("https"));
+                String url = response.substring(response.indexOf("https"), response.indexOf("\""));
+                response = response.substring(response.indexOf("name") + "name".length() + 3);
 
-            String userName = response.substring(0, response.indexOf("\""));
-            response = response.substring(response.indexOf("\""));
-            Profile newPerson = new Profile(userName, url.replace("\\", ""));
-            if (newPerson != null) profileArray.add(newPerson);
+                String userName = response.substring(0, response.indexOf("\""));
+                response = response.substring(response.indexOf("\""));
+                Profile newPerson = new Profile(userName, url.replace("\\", ""));
+                if (newPerson != null) profileArray.add(newPerson);
+            }
         }
 
         playQuestion();
@@ -128,7 +122,6 @@ public class Question1Activity extends ActionBarActivity {
         new DownloadImageTask(questionImage)
                 .execute(retrievedProfile.getPicture());
     }
-
 
 
     public Profile generateQuestion() {
@@ -299,7 +292,7 @@ public class Question1Activity extends ActionBarActivity {
     }
 
     public void wrongAnswer(View view) {
-        Button button = (Button)findViewById(view.getId());
+        Button button = (Button) findViewById(view.getId());
 
         button.setBackgroundColor(Color.parseColor("#B71C1C"));
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
@@ -336,6 +329,7 @@ public class Question1Activity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

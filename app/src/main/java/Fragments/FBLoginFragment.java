@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -105,7 +106,7 @@ public class FBLoginFragment extends Fragment {
                 @Override
                 public void onCompleted(Response response) {
                     Log.d("Response", response.toString());
-   //                  android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    //                  android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
 //                     fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(0)).commit();
 
                     // takes us to homescreen
