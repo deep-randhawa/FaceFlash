@@ -1,92 +1,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="randhawa.deep.faceflash.Question1Activity">
+
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="randhawa.deep.faceflash.Question1Activity">
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:id="@+id/linearLayout1">
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="#ffffff"
-        android:orientation="vertical">
+        android:text="QUESTION text"
+        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:src="#ffff5158"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/linearLayout1"
+    android:orientation="vertical"
+    android:background="#bb22b3"
+    android:layout_marginTop="20dp"
+    android:padding="16dp"
+    android:layout_margin="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="QUESTION text"
-            android:textSize="30sp" />
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:src="#ffff5158" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout1"
-        android:layout_margin="16dp"
-        android:layout_marginTop="20dp"
-        android:background="#bb22b3"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="checkAnswer"
-                android:text="Correct answer" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="LOLOLOL" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:text="Correct answer"
             android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="LOLOLOL" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="LOLOLOL" />
-        </LinearLayout>
-    </LinearLayout>
+            android:onClick="checkAnswer"
+            android:id="@+id/b0"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOLOLOL"
+            android:layout_weight="1"
+            android:onClick="wrongAnswer"
+            android:id="@+id/b1"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOLOLOL"
+            android:layout_weight="1"
+            android:onClick="wrongAnswer"
+            android:id="@+id/b2"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOLOLOL"
+            android:layout_weight="1"
+            android:onClick="wrongAnswer"
+            android:id="@+id/b3"/>
+</LinearLayout>
 
     <View
-        android:id="@+id/correctView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#488D48"
-        android:visibility="invisible" />
+        android:id="@+id/correctView"
+        android:visibility="invisible"
+        />
 
 </RelativeLayout>
