@@ -1,22 +1,23 @@
 package randhawa.deep.faceflash;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
+
+import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
-import org.brickred.socialauth.Contact;
+
 import java.util.List;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+
 import Fragments.FBLoginFragment;
 
 
