@@ -2,6 +2,8 @@ package randhawa.deep.faceflash;
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,6 +15,11 @@ import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Question1Activity extends ActionBarActivity {
 
@@ -25,7 +32,7 @@ public class Question1Activity extends ActionBarActivity {
     private int size;            //size of profile array
     private int[] profiles;      //array of index of theseprofiles
     private Profile[] profileMemory; //remembers the last 5 profiles
-
+    ImageView questionImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +45,7 @@ public class Question1Activity extends ActionBarActivity {
         b1 = (Button) findViewById(R.id.b1);
         b2 = (Button) findViewById(R.id.b2);
         b3 = (Button) findViewById(R.id.b3);
-
+        questionImage = (ImageView) findViewById(R.id.qImage);
         //  String name = sharedPreferences.getString("Name" + element, "Borat");
         //  String urlAdd = sharedPreferences.getString("ImageUrl"+element, "url");
 
@@ -88,6 +95,20 @@ public class Question1Activity extends ActionBarActivity {
         b1.setText(choices[1].getName());
         b2.setText(choices[2].getName());
         b3.setText(choices[3].getName());
+
+        URL url = null;
+        try {
+            url = new URL(retrievedProfile.getPicture());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Bitmap bmp = null;
+        try {
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        questionImage.setImageBitmap(bmp);
 
         // @TODO: Need to get user answer.
         userAnswer = this.getUserAnswer();
@@ -187,7 +208,7 @@ public class Question1Activity extends ActionBarActivity {
     }
     public void buttonClicked(View view){
         Button button = (Button)findViewById(view.getId());
-        
+
 
     }
 
