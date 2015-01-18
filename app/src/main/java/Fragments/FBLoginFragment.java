@@ -8,25 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
-=======
->>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
-<<<<<<< HEAD
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.Arrays;
 
-=======
->>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 import randhawa.deep.faceflash.R;
 
 public class FBLoginFragment extends Fragment {
@@ -55,15 +46,12 @@ public class FBLoginFragment extends Fragment {
 
         LoginButton loginButton = (LoginButton) view.findViewById(R.id.facebook_auth_button);
         loginButton.setFragment(this);
-<<<<<<< HEAD
         loginButton.setReadPermissions(Arrays.asList("email",
                 "read_friendlists",
                 "user_photos",
                 "user_about_me",
                 "user_birthday",
                 "user_friends"));
-=======
->>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 
         return view;
     }
@@ -110,28 +98,16 @@ public class FBLoginFragment extends Fragment {
     private void onSessionStateChange(Session session, SessionState sessionState, Exception exception) {
         if (sessionState.isOpened()) {
             Log.d(TAG, "Logged in...");
-<<<<<<< HEAD
             Request request = new Request(session, "me/taggable_friends", null, HttpMethod.GET, new Request.Callback() {
                 @Override
                 public void onCompleted(Response response) {
-                    try {
-                        JSONArray jsonArray = new JSONArray(response.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("Response", response.toString());
                 }
-
             });
             request.executeAsync();
-=======
->>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
+            
         } else if (sessionState.isClosed()) {
             Log.d(TAG, "Logged out...");
         }
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 }

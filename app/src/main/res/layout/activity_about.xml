@@ -19,11 +19,11 @@
         android:layout_height="match_parent"
         android:layout_below="@id/title1"
         android:text="Credits:
-        Katherine
-        Chalse
-        Sarnia
-        Varun
-        Deep"
+        Katherine Cass
+        Chalse Okorom
+        Sarnia Rahman
+        Varun Ramesh
+        Deep Singh"
         android:textSize="30sp" />
 
 </RelativeLayout>

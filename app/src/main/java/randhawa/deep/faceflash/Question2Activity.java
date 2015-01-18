@@ -17,19 +17,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 
-public class Question1Activity extends ActionBarActivity {
+public class Question2Activity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question1);
+        setContentView(R.layout.activity_question2);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_question1, menu);
+        getMenuInflater().inflate(R.menu.menu_question2, menu);
         return true;
     }
 
@@ -87,5 +87,4 @@ public class Question1Activity extends ActionBarActivity {
         view.startAnimation(shake);
 
     }
-
 }
