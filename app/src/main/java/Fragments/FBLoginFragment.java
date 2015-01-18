@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class FBLoginFragment extends Fragment {
         }
     };
     private UiLifecycleHelper uiLifecycleHelper;
+    LoginButton loginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class FBLoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_login, container, false);
 
-        LoginButton loginButton = (LoginButton) view.findViewById(R.id.facebook_auth_button);
+        loginButton = (LoginButton) view.findViewById(R.id.facebook_auth_button);
         loginButton.setFragment(this);
         loginButton.setReadPermissions(Arrays.asList("email",
                 "read_friendlists",
@@ -102,6 +104,8 @@ public class FBLoginFragment extends Fragment {
                 @Override
                 public void onCompleted(Response response) {
                     Log.d("Response", response.toString());
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(0)).commit();
                 }
             });
             request.executeAsync();
