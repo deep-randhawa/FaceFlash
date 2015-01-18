@@ -29,7 +29,7 @@ public class LoginActivity extends FragmentActivity {
     Editor editor;
     int count = 0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -55,10 +55,13 @@ public class LoginActivity extends FragmentActivity {
         }
 
 
-        fbButton.setOnClickListener(new View.OnClickListener() {
+        // Calls the authorization page of linkedIn when the button is clicked.
+        linkedIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (save == null) {
+                adapter.authorize(LoginActivity.this,
+                        SocialAuthAdapter.Provider.LINKEDIN);
+                if (savedInstanceState == null) {
                     fbLoginFragment = new FBLoginFragment();
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -68,17 +71,6 @@ public class LoginActivity extends FragmentActivity {
                     fbLoginFragment = (FBLoginFragment) getSupportFragmentManager()
                             .findFragmentById(android.R.id.content);
                 }
-            }
-        });
-
-
-
-        // Calls the authorization page of linkedIn when the button is clicked.
-        linkedIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.authorize(LoginActivity.this,
-                        SocialAuthAdapter.Provider.LINKEDIN);
             }
         });
 

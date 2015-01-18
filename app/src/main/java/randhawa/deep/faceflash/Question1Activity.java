@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Question1Activity extends ActionBarActivity {
 
@@ -33,7 +34,7 @@ public class Question1Activity extends ActionBarActivity {
     private String gameType;    //type of game (facial rec or name rec)
     private int streak;  //current score streak
     public int highScore;      //highscore (need to somehow load this from device memory)
-    private Profile[] profileArray; //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
+    private ArrayList<Profile> profileArray = new ArrayList<>(); //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
     private int size;            //size of profile array
     private int[] profiles;      //array of index of theseprofiles
     private Profile[] profileMemory; //remembers the last 5 profiles
@@ -76,15 +77,27 @@ public class Question1Activity extends ActionBarActivity {
         //populate array of prototypes
         String name;
         String picture;
-        profileArray = new Profile[size];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < profileArray.size(); i++) {
             name = sharedPreferences.getString("Name" + i, "Borat");
             picture = sharedPreferences.getString("ImageUrl" + i, "url");
-            profileArray[i] = new Profile(name, picture);
-
+            profileArray.add(new Profile(name, picture));
         }
 
         int roundCount = 0; //keeps track of the rounds if we want to add a status bar
+
+        // gets profiles from facebook
+        sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
+        String response = sharedPreferences.getString("FB_Response", null);
+        while (response.indexOf("https") != -1) {
+            response = response.substring(response.indexOf("https"));
+            String url = response.substring(response.indexOf("https"), response.indexOf("\""));
+            response = response.substring(response.indexOf("name") + "name".length() + 3);
+
+            String userName = response.substring(0, response.indexOf("\""));
+            response = response.substring(response.indexOf("\""));
+            Profile newPerson = new Profile(userName, url.replace("\\", ""));
+            if (newPerson != null) profileArray.add(newPerson);
+        }
 
         playQuestion();
 
@@ -112,7 +125,7 @@ public class Question1Activity extends ActionBarActivity {
 
 
     public Profile generateQuestion() {
-        return profileArray[(int) (Math.random() * size)];
+        return profileArray.get((int) (Math.random() * profileArray.size()));
     }
 
     public Profile[] generateChoices(Profile retrievedProfile) {
@@ -134,21 +147,21 @@ public class Question1Activity extends ActionBarActivity {
         profile.setMemoryTier(correct);
         int index = 0;
 
-        for (int j = 0; j < size; j++) {
-            if (profile == profileArray[j])
+        for (int j = 0; j < profileArray.size(); j++) {
+            if (profile == profileArray.get(j))
                 index = j;
         }
 
-        if ((correct == false) && (index + 1 < size)) {
+        if ((correct == false) && (index + 1 < profileArray.size())) {
             streak = 0;
             temp = profile;
-            profileArray[index + 1] = profile;
-            profileArray[index] = temp;
+            profileArray.set(index + 1, profile);
+            profileArray.set(index, temp);
         } else if ((index - 1) >= 0) {
             streak = streak + 1;
-            temp = profileArray[index - 1];
+            temp = profileArray.get(index - 1);
             profiles[index - 1] = profiles[index];
-            profileArray[index] = temp;
+            profileArray.set(index, temp);
         }
 
     }
@@ -166,10 +179,10 @@ public class Question1Activity extends ActionBarActivity {
 
     public Profile generateRandom(Profile a, Profile b, Profile c, Profile d) {
 
-        Profile generated = profileArray[(int) (Math.random() * size)];
+        Profile generated = profileArray.get((int) (Math.random() * profileArray.size()));
 
         while ((generated == a) || (generated == b) || (generated == c) || (generated == d))
-            generated = profileArray[(int) (Math.random() * size)];
+            generated = profileArray.get((int) (Math.random() * profileArray.size()));
 
         return generated;
 
@@ -216,7 +229,7 @@ public class Question1Activity extends ActionBarActivity {
         int size;
 
         for (int i = 0; i < profiles.length; i++) {
-            temp = profileArray[i].getMemoryTier();
+            temp = profileArray.get(i).getMemoryTier();
             if (temp < 2)
                 red += 1;
             if ((temp >= 2) && (temp <= 5))
