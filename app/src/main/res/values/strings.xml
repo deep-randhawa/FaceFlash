@@ -9,5 +9,5 @@
     <string name="title_activity_question1">Question1Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_correct_answer">CorrectAnswerActivity</string>
-
+    <string name="app_ID">443958045757990</string>
 </resources>

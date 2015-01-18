@@ -1,6 +1,7 @@
 package randhawa.deep.faceflash;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,20 +14,56 @@ import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
 import org.brickred.socialauth.Contact;
-
 import java.util.List;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import Fragments.FBLoginFragment;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends FragmentActivity {
     SocialAuthAdapter adapter;
-    Button linkedIn;
+    Button linkedIn, fbButton;
     String userName = "";
+    private FBLoginFragment fbLoginFragment;
+    SharedPreferences sharedPreferences;
+    Editor editor;
+    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         adapter = new SocialAuthAdapter(new ResponseListener());
         linkedIn = (Button) findViewById(R.id.linkedin);
+        fbButton = (Button) findViewById(R.id.facebook_auth_button);
+        sharedPreferences = getSharedPreferences("randhawa" +
+                ".deep" +
+                ".faceflash", MODE_PRIVATE);
+        final Bundle save = savedInstanceState;
+        if(sharedPreferences.getBoolean("ifFirst", true)){
+            editor = sharedPreferences.edit();
+            editor.putBoolean("ifFirst", false);
+            editor.putBoolean("isLoggedIn", false);
+            editor.commit();
+        }
+
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (save == null) {
+                    fbLoginFragment = new FBLoginFragment();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(android.R.id.content, fbLoginFragment)
+                            .commit();
+                } else {
+                    fbLoginFragment = (FBLoginFragment) getSupportFragmentManager()
+                            .findFragmentById(android.R.id.content);
+                }
+            }
+        });
+
+
 
         // Calls the authorization page of linkedIn when the button is clicked.
         linkedIn.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +73,11 @@ public class LoginActivity extends ActionBarActivity {
                         SocialAuthAdapter.Provider.LINKEDIN);
             }
         });
+
+
     }
+
+
 
 
     // Calls the linkedIn API.
@@ -45,6 +86,7 @@ public class LoginActivity extends ActionBarActivity {
         // Defines the event when the login was successful.
         @Override
         public void onComplete(Bundle values){
+           editor.putBoolean("isLoggedIn",true);
            adapter.getUserProfileAsync(new ProfileDataListener());
            adapter.getContactListAsync(new ContactDataListener());
         }
@@ -96,25 +138,26 @@ public class LoginActivity extends ActionBarActivity {
        private final class ContactDataListener implements
             SocialAuthListener{
 
-           /*@Override
-           public void onExecute(String contacts, List t) {
-               List<Contact> contactsList = t;
-
-           } */
-
            @Override
            public void onExecute(String s, Object o) {
                List<Contact> contactList = (List<Contact>)o;
                if (contactList != null && contactList.size() > 0) {
                    for (Contact c : contactList) {
-                       Log.d("Custom-UI", "First Name = " + c.getFirstName());
-                       Log.d("Custom-UI", "Last Name = " + c.getLastName());
+                       userName = c.getFirstName() + " " +
+                               c.getLastName();
+
                        if (c.getProfileImageURL() != null) {
                            String url = c.getProfileImageURL();
-                           System.out.println(url);
+                           editor = sharedPreferences.edit();
+                           editor.putString("Name"+count, userName);
+                           editor.putString("ImageUrl"+count, url);
+                           editor.putInt("Number of times guessed right"+count, 0);
+                           editor.putInt("Number of times guessed wrong"+count, 0);
+                           editor.commit();
+                           count ++;
                        }
                        else {
-                           System.out.println("Tussed out");
+                           continue;
                        }
                    }
                }
