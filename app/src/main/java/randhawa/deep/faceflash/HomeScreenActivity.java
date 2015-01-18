@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class HomeScreenActivity extends Activity{
+public class HomeScreenActivity extends Activity {
 
     TextView uName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

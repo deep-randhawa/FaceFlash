@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,11 +17,9 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.Arrays;
 
+import randhawa.deep.faceflash.HomeScreenActivity;
 import randhawa.deep.faceflash.R;
 
 public class FBLoginFragment extends Fragment {
@@ -33,6 +32,7 @@ public class FBLoginFragment extends Fragment {
         }
     };
     private UiLifecycleHelper uiLifecycleHelper;
+    LoginButton loginButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class FBLoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_login, container, false);
 
-        LoginButton loginButton = (LoginButton) view.findViewById(R.id.facebook_auth_button);
+        loginButton = (LoginButton) view.findViewById(R.id.facebook_auth_button);
         loginButton.setFragment(this);
         loginButton.setReadPermissions(Arrays.asList("email",
                 "read_friendlists",
@@ -104,6 +104,7 @@ public class FBLoginFragment extends Fragment {
             Request request = new Request(session, "me/taggable_friends", null, HttpMethod.GET, new Request.Callback() {
                 @Override
                 public void onCompleted(Response response) {
+<<<<<<< HEAD
                     try {
                         JSONArray jsonArray = new JSONArray(response.toString());
                         System.out.println(jsonArray);
@@ -111,13 +112,21 @@ public class FBLoginFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
+=======
+                    Log.d("Response", response.toString());
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(0)).commit();
+>>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
 
+                    // takes us to homescreen
+                    Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
+                    startActivity(intent);
+                }
             });
             request.executeAsync();
+            
         } else if (sessionState.isClosed()) {
             Log.d(TAG, "Logged out...");
         }
     }
-
-
 }

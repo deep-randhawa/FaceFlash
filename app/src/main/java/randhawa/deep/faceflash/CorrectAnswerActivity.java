@@ -21,7 +21,7 @@ public class CorrectAnswerActivity extends ActionBarActivity {
         fadeIn.setInterpolator(new AccelerateInterpolator()); //add this
         fadeIn.setDuration(1000);
 
-        Button b = (Button)findViewById(R.id.buttonBack);
+        Button b = (Button) findViewById(R.id.buttonBack);
 
         b.setAnimation(fadeIn);
         b.startAnimation(fadeIn);

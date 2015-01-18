@@ -2,7 +2,12 @@ package randhawa.deep.faceflash;
 
 import android.animation.Animator;
 import android.content.Intent;
+<<<<<<< HEAD
 import android.content.SharedPreferences;
+=======
+import android.graphics.Color;
+import android.os.Build;
+>>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,11 +15,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
+<<<<<<< HEAD
 import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import java.util.Random;
+=======
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+
+>>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
 
 public class Question1Activity extends ActionBarActivity {
 
@@ -153,13 +166,21 @@ public class Question1Activity extends ActionBarActivity {
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
 
         // create the animator for this view (the start radius is zero)
+<<<<<<< HEAD
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+=======
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+>>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
             Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
             // make the view visible and start the animation
             myView.setVisibility(View.VISIBLE);
             anim.start();
+<<<<<<< HEAD
         } else{
+=======
+        } else {
+>>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.setInterpolator(new AccelerateInterpolator()); //add this
             fadeIn.setDuration(1000);
@@ -170,4 +191,15 @@ public class Question1Activity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
+
+
+    public void wrongAnswer(View view) {
+        Button button = (Button) findViewById(view.getId());
+
+        button.setBackgroundColor(Color.parseColor("#B71C1C"));
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+
+    }
+
 }
