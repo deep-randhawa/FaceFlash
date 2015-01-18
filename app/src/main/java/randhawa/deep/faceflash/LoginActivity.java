@@ -17,12 +17,14 @@ import org.brickred.socialauth.Contact;
 import java.util.List;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.widget.ImageButton;
+
 import Fragments.FBLoginFragment;
 
 
 public class LoginActivity extends FragmentActivity {
     SocialAuthAdapter adapter;
-    Button linkedIn, fbButton;
+    ImageButton linkedIn, fbButton;
     String userName = "";
     private FBLoginFragment fbLoginFragment;
     SharedPreferences sharedPreferences;
@@ -42,8 +44,8 @@ public class LoginActivity extends FragmentActivity {
             finish();
         }
         adapter = new SocialAuthAdapter(new ResponseListener());
-        linkedIn = (Button) findViewById(R.id.linkedin);
-        fbButton = (Button) findViewById(R.id.facebook_auth_button);
+        linkedIn = (ImageButton) findViewById(R.id.linkedin);
+        fbButton = (ImageButton) findViewById(R.id.facebook_auth_button);
 
         final Bundle save = savedInstanceState;
         editor = sharedPreferences.edit();

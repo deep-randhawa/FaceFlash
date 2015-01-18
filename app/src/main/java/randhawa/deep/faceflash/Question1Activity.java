@@ -201,10 +201,10 @@ public class Question1Activity extends ActionBarActivity {
         } else {
             wrongAnswer(view);
         }
-
         //this.updateDatabase(retrievedProfile, correct);
         //this.updateMemory(retrievedProfile);
         Profile retrievedProfile;
+
     }
 
 

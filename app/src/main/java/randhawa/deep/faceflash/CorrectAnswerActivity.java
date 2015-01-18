@@ -10,10 +10,11 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class CorrectAnswerActivity extends ActionBarActivity {
-
+    ImageButton b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +24,13 @@ public class CorrectAnswerActivity extends ActionBarActivity {
         fadeIn.setInterpolator(new AccelerateInterpolator()); //add this
         fadeIn.setDuration(1000);
 
-        Button b = (Button) findViewById(R.id.buttonBack);
-
+        b = (ImageButton) findViewById(R.id.buttonBack);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextQuestionAct(v);
+            }
+        });
         b.setAnimation(fadeIn);
         b.startAnimation(fadeIn);
     }

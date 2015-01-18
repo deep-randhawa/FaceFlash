@@ -14,11 +14,7 @@ public class HomeScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreenactivity);
-        uName = (TextView) findViewById(R.id.nameTextView);
         Intent i = getIntent();
-        String userName = i.getStringExtra("useName");
-        uName.setText(userName);
-
     }
 
     public void openPlayScreen(View view) {
