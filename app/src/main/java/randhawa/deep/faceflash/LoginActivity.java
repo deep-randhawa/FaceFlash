@@ -44,9 +44,6 @@ public class LoginActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_login);
 
-        // resize the fragment
-
-
         // linked setup
         adapter = new SocialAuthAdapter(new ResponseListener());
         linkedIn = (Button) findViewById(R.id.linkedin);
@@ -59,7 +56,6 @@ public class LoginActivity extends FragmentActivity {
                         SocialAuthAdapter.Provider.LINKEDIN);
             }
         });
-
     }
 
 

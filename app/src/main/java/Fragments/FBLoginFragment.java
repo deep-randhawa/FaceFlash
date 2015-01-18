@@ -16,9 +16,6 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.Arrays;
 
 import randhawa.deep.faceflash.R;
@@ -104,11 +101,7 @@ public class FBLoginFragment extends Fragment {
             Request request = new Request(session, "me/taggable_friends", null, HttpMethod.GET, new Request.Callback() {
                 @Override
                 public void onCompleted(Response response) {
-                    try {
-                        JSONArray jsonArray = new JSONArray(response.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("Response", response.toString());
                 }
 
             });
