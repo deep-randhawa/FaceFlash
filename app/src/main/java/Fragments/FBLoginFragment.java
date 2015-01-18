@@ -18,11 +18,13 @@ import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
 
+import randhawa.deep.faceflash.HomeScreenActivity;
 import randhawa.deep.faceflash.R;
 
 public class FBLoginFragment extends Fragment {
 
     private final static String TAG = "FBLoginFragment";
+    public static Response FB_Response;
     private Session.StatusCallback callback = new Session.StatusCallback() {
         @Override
         public void call(Session session, SessionState sessionState, Exception e) {
@@ -102,10 +104,14 @@ public class FBLoginFragment extends Fragment {
                 @Override
                 public void onCompleted(Response response) {
                     Log.d("Response", response.toString());
-                }
+                    FB_Response = response;
 
+                    Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
+                    startActivity(intent);
+                }
             });
             request.executeAsync();
+
         } else if (sessionState.isClosed()) {
             Log.d(TAG, "Logged out...");
         }

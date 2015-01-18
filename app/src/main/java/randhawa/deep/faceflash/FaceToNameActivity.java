@@ -1,31 +1,39 @@
 package randhawa.deep.faceflash;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageView;
 
+import com.facebook.Response;
 
-public class ModeChoice extends ActionBarActivity {
-    /*
-    IDEAS:
-    -take picture of an entry from array/database/web?
-    -take 4 random names
+import Fragments.FBLoginFragment;
 
-     */
+public class FaceToNameActivity extends Activity {
+
+    private ImageView[] imageViews = new ImageView[4];
+    Bitmap bitmap;
+    Response FB_Response = FBLoginFragment.FB_Response;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mode_choice);
+        setContentView(R.layout.activity_face_to_name);
+        imageViews[0] = (ImageView) findViewById(R.id.imageButton01);
+        imageViews[1] = (ImageView) findViewById(R.id.imageButton02);
+        imageViews[2] = (ImageView) findViewById(R.id.imageButton03);
+        imageViews[3] = (ImageView) findViewById(R.id.imageButton04);
+
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mode_choice, menu);
+        getMenuInflater().inflate(R.menu.menu_face_to_name, menu);
         return true;
     }
 
@@ -42,22 +50,5 @@ public class ModeChoice extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
-        super.onBackPressed();
-    }
-
-    public void openQuestion(View view) {
-        Intent intent = new Intent(this, Question1Activity.class);
-        startActivity(intent);
-    }
-
-    public void faceRecognition(View view) {
-        Intent intent = new Intent(this, FaceToNameActivity.class);
-        startActivity(intent);
     }
 }

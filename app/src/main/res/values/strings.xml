@@ -9,5 +9,6 @@
     <string name="title_activity_question1">Question1Activity</string>
     <string name="app_ID">443958045757990</string>
     <string name="title_activity_correct_answer">CorrectAnswerActivity</string>
+    <string name="title_activity_face_to_name">FaceToNameActivity</string>
 
 </resources>
