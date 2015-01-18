@@ -19,6 +19,7 @@ import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
 
+import randhawa.deep.faceflash.HomeScreenActivity;
 import randhawa.deep.faceflash.R;
 
 public class FBLoginFragment extends Fragment {
@@ -106,6 +107,10 @@ public class FBLoginFragment extends Fragment {
                     Log.d("Response", response.toString());
                     android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().remove(fragmentManager.getFragments().get(0)).commit();
+
+                    // takes us to homescreen
+                    Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
+                    startActivity(intent);
                 }
             });
             request.executeAsync();
