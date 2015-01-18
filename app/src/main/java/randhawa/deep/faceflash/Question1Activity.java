@@ -65,20 +65,7 @@ public class Question1Activity extends ActionBarActivity {
 
         int roundCount = 0; //keeps track of the rounds if we want to add a status bar
 
-        correct = this.playQuestion();
-        this.askNext();
-
-        while (next == true) {
-            this.playQuestion();
-            this.askNext();
-            roundCount += 1;
-
-            if (roundCount == 9) {
-                statusBar();
-                roundCount = 0;
-            }
-        }
-
+        // gets profiles from facebook
         sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
         ArrayList<Profile> arrayList = new ArrayList<Profile>();
         String response = sharedPreferences.getString("FB_Response", null);
@@ -91,6 +78,20 @@ public class Question1Activity extends ActionBarActivity {
             response = response.substring(response.indexOf("\""));
             Profile newPerson = new Profile(userName, url);
             arrayList.add(newPerson);
+        }
+
+        correct = this.playQuestion();
+        this.askNext();
+
+        while (next == true) {
+            this.playQuestion();
+            this.askNext();
+            roundCount += 1;
+
+            if (roundCount == 9) {
+                statusBar();
+                roundCount = 0;
+            }
         }
     }
 
