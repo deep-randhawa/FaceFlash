@@ -1,13 +1,7 @@
 package randhawa.deep.faceflash;
-
 import android.animation.Animator;
 import android.content.Intent;
-<<<<<<< HEAD
 import android.content.SharedPreferences;
-=======
-import android.graphics.Color;
-import android.os.Build;
->>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -15,32 +9,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
-<<<<<<< HEAD
 import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-import java.util.Random;
-=======
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-
->>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
 
 public class Question1Activity extends ActionBarActivity {
 
     SharedPreferences sharedPreferences;
     Button b0,b1,b2,b3;
-    int element;
-    int count;
-    private String gameType;
-    private int streak;
-    public int highScore;
-    private int[] profiles;
-    private int[] profileMemory; // Stores the last 5 % of
-    // contacts.
+    private String gameType; 	//type of game (facial rec or name rec)
+    private int streak;  //current score streak
+    public int highScore;      //highscore (need to somehow load this from device memory)
+    private Profile[] profileArray; //array of profiles sorted with profile[0] being least recognized and profile[i] best recognized
+    private int size;            //size of profile array
+    private int[] profiles;      //array of index of theseprofiles
+    private Profile[] profileMemory; //remembers the last 5 profiles
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,88 +33,212 @@ public class Question1Activity extends ActionBarActivity {
         sharedPreferences = getSharedPreferences("randhawa" +
                 ".deep" +
                 ".faceflash", MODE_PRIVATE);
-        count = sharedPreferences.getInt("Count", 0);
-        element = generateQuestion();
-        String name = sharedPreferences.getString("Name" + element, "Borat");
-        String urlAdd = sharedPreferences.getString("ImageUrl"+element, "url");
-        System.out.println(name);
-        System.out.println(element);
-        System.out.println(urlAdd);
-        /*for (int i = 0; i < count; i++) {
-            System.out.println(sharedPreferences.getString("Name"+i,
-                    "Base Case"));
-            System.out.println(sharedPreferences.getString("ImageUrl"+i,
-                    "Base Case"));
-            System.out.println(sharedPreferences.getInt("Number of times " +
-                    "guessed right"+i,0));
-            System.out.println(sharedPreferences.getInt("Number of times " +
-                    "guessed wrong"+i,0));
 
-        } */
-        profileMemory = new int[5];
-        // To check if the next button is clicked.
-        boolean next = true;
-        // To check if the answer was right or not.
+        b0 = (Button) findViewById(R.id.b0);
+        b1 = (Button) findViewById(R.id.b1);
+        b2 = (Button) findViewById(R.id.b2);
+        b3 = (Button) findViewById(R.id.b3);
+
+        //  String name = sharedPreferences.getString("Name" + element, "Borat");
+        //  String urlAdd = sharedPreferences.getString("ImageUrl"+element, "url");
+
+        profileMemory = new Profile[5];
+        boolean next = true; //
         boolean correct;
-        int roundCount = 0;
+        //  gameType = gametype[0];
+        size = sharedPreferences.getInt("Count", 0);
+        //populate array of prototypes
+        String name;
+        String picture;
+        profileArray = new Profile[size];
+        for(int i = 0; i < size; i++) {
+            name = sharedPreferences.getString("Name" + i, "Borat");
+            picture = sharedPreferences.getString("ImageUrl"+i, "url");
+            profileArray[i] = new Profile(name, picture);
+
+        }
+
+        int roundCount = 0; //keeps track of the rounds if we want to add a status bar
 
         correct = this.playQuestion();
         this.askNext();
 
-        while(next){
+        while (next == true)   {
             this.playQuestion();
             this.askNext();
             roundCount += 1;
+
+            if (roundCount == 9) {
+                statusBar();
+                roundCount = 0;
+            }
         }
     }
 
+    //plays one question
+    public boolean playQuestion() {
+        Boolean correct;
+        Profile retrievedProfile; //the actual answer (element was chosen)
+        Profile userAnswer; //the answer
+        Profile[] choices;
 
-    public int generateQuestion(){
-        double random = Math.random();
-        count = sharedPreferences.getInt("Count", 0);
-        if (random < 0.5){
-            element = (int) ((random)*((count-1)/30.0));
-            System.out.println("Element = " + element);
-        }
-        else {
-            element = (int) ((random)*(count));
+        retrievedProfile = this.generateQuestion();
+        choices = this.generateChoices(retrievedProfile);
+        b0.setText(choices[0].getName());
+        b1.setText(choices[1].getName());
+        b2.setText(choices[2].getName());
+        b3.setText(choices[3].getName());
+
+        // @TODO: Need to get user answer.
+        userAnswer = this.getUserAnswer();
+
+        if (userAnswer == retrievedProfile) {
+            correct = true;
+        } else {
+            correct = false;
         }
 
-        return element;
+        this.updateDatabase(retrievedProfile, correct);
+        this.updateMemory(retrievedProfile);
+        return correct;
+
     }
 
-    public int[] generateChoices(int retrievedProfile){
+    public Profile generateQuestion() {
+        return profileArray[(int) (Math.random()*size)];
+    }
+
+    public Profile[] generateChoices(Profile retrievedProfile){
         int seed = (int) (Math.random()*4);
-        int[] choice = new int[3];
+        Profile[] choice = new Profile[4];
 
-        choice[0] = generateRandom(retrievedProfile, retrievedProfile, retrievedProfile, retrievedProfile );
-        choice[1] = generateRandom(retrievedProfile, choice[0], retrievedProfile, retrievedProfile);
-        choice[2] = generateRandom(retrievedProfile, choice[0], choice[1], retrievedProfile);
-        choice[3] = generateRandom(retrievedProfile, choice[0], choice[1], choice[2]);
+        choice[0] =  generateRandom(retrievedProfile, retrievedProfile, retrievedProfile, retrievedProfile);
+        choice[1] =  generateRandom(retrievedProfile, choice[0], retrievedProfile, retrievedProfile);
+        choice[2] =  generateRandom(retrievedProfile, choice[0], choice[1], retrievedProfile);
+        choice[3] =  generateRandom(retrievedProfile, choice[0], choice[1], choice[2]);
 
         choice[seed] = retrievedProfile;
 
         return choice;
     }
 
+    public void updateDatabase(Profile profile, boolean correct) {
+        Profile temp;
+        profile.setMemoryTier(correct);
+        int index = 0;
 
-    public boolean playQuestion(){
-        Boolean correct;
-        int retrievedProfileIndex; // The actual answer
-        int userAnswerIndex; // The user's answer
-        int[] choices;
+        for (int j = 0; j < size; j++) {
+            if (profile == profileArray[j])
+                index = j;
+        }
 
-        retrievedProfileIndex = this.generateQuestion();
-        return correct;
+        if ((correct == false) && ( index+1 < size)) {
+            streak = 0;
+            temp = profile;
+            profileArray[index+1] = profile;
+            profileArray[index] = temp;
+        } else if ((index-1) >= 0) {
+            streak = streak + 1;
+            temp = profileArray[index-1];
+            profiles[index-1] = profiles[index];
+            profileArray[index] = temp;
+        }
+
     }
 
-    public void updateDatabase(int profileIndex, boolean correct){
 
+    public void updateMemory(Profile profile) {
+        Profile temp;
+
+        for (int i = 0; i < profileMemory.length - 1; i++) {
+            temp = profileMemory[i] ;
+            profileMemory[i] = profile;
+            profileMemory[i+1] = temp;
+        }
+    }
+
+    public Profile generateRandom(Profile a, Profile b, Profile c, Profile d) {
+
+        Profile generated = profileArray[(int)(Math.random()*size)];
+
+        while ((generated == a) || (generated == b) || (generated == c) || (generated == d))
+            generated = profileArray[(int)(Math.random()*size)];
+
+        return generated;
 
     }
 
-    public Prof
+    private void askNext() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    private Profile getUserAnswer() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private boolean isRepeat(Profile generatedProfile) {
+
+        for (int i = 0; i < profileMemory.length; i++){
+            if (profileMemory[i] == generatedProfile)
+                return true;
+        }
+
+        return false;
+    }
+    public void buttonClicked(View view){
+        Button button = (Button)findViewById(view.getId());
+        
+
+    }
+
+    private void statusBar(){
+        int red = 0;
+        int yellow = 0;
+        int green = 0;
+        int temp;
+        int size;
+
+        for (int i = 0; i < profiles.length; i++) {
+            temp = profileArray[i].getMemoryTier();
+            if (temp < 2)
+                red += 1;
+            if ((temp >= 2) && (temp <= 5))
+                yellow += 1;
+            if (temp > 5)
+                green += 1;
+        }
+
+        size = red + yellow + green;
+        // code to divide progress bar into red, yellow and green sectoin
+
+        //rewards here:
+        if (red == 0) {
+            System.out.println("Congratulations! You vaguely recognize everyone in your binder. Keep up the good work! ");
+        }
+
+        if (red >= (size*.5) ) {
+            System.out.println("Congratulations! You vaguely recognize half of everyone in your binder. Keep up the good work! ");
+        }
+
+        if (green == size ) {
+            System.out.println("CONGRATULATIONS. You have master memory.");
+        }
+    }
+
+
+    public int generateNumber(){
+        double random = Math.random();
+        int element;
+        int count = sharedPreferences.getInt("Count", 0);
+        if (random < 0.5){
+            element = (int) ((random)*(count/30));
+        }
+        else {
+            element = (int) ((random)*(count+1));
+        }
+
+        return element;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -166,21 +274,13 @@ public class Question1Activity extends ActionBarActivity {
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight());
 
         // create the animator for this view (the start radius is zero)
-<<<<<<< HEAD
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-=======
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
->>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
             Animator anim = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
             // make the view visible and start the animation
             myView.setVisibility(View.VISIBLE);
             anim.start();
-<<<<<<< HEAD
         } else{
-=======
-        } else {
->>>>>>> 70f18b1a59ff5971e00189d14625c1396bfd8b4a
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.setInterpolator(new AccelerateInterpolator()); //add this
             fadeIn.setDuration(1000);
@@ -191,15 +291,4 @@ public class Question1Activity extends ActionBarActivity {
         startActivity(intent);
         finish();
     }
-
-
-    public void wrongAnswer(View view) {
-        Button button = (Button) findViewById(view.getId());
-
-        button.setBackgroundColor(Color.parseColor("#B71C1C"));
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-        view.startAnimation(shake);
-
-    }
-
 }
