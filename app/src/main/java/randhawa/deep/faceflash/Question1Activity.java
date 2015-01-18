@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.os.Build;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -197,7 +199,7 @@ public class Question1Activity extends ActionBarActivity {
         if (textOnClicked.equals(retrievedProfile.getName())) {
             correctAnswer(view);
         } else {
-            correct = false;
+            wrongAnswer(view);
         }
 
         //this.updateDatabase(retrievedProfile, correct);
@@ -274,6 +276,15 @@ public class Question1Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void wrongAnswer(View view) {
+        Button button = (Button)findViewById(view.getId());
+
+        button.setBackgroundColor(Color.parseColor("#B71C1C"));
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        view.startAnimation(shake);
+
     }
 
     public void correctAnswer(View view) {
