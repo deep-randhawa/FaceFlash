@@ -1,9 +1,11 @@
 package randhawa.deep.faceflash;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -48,5 +50,12 @@ public class CorrectAnswerActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void nextQuestionAct(View view) {
+        Intent intent = new Intent(this, Question1Activity.class);
+        intent.putExtra("Correct", true);
+        startActivity(intent);
+        finish();
     }
 }

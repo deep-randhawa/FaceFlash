@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -32,7 +33,11 @@ public class Question1Activity extends ActionBarActivity {
     private int size;            //size of profile array
     private int[] profiles;      //array of index of theseprofiles
     private Profile[] profileMemory; //remembers the last 5 profiles
+    Profile retrievedProfile;
+    String textOnClicked;
     ImageView questionImage;
+    Boolean next;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +51,20 @@ public class Question1Activity extends ActionBarActivity {
         b2 = (Button) findViewById(R.id.b2);
         b3 = (Button) findViewById(R.id.b3);
         questionImage = (ImageView) findViewById(R.id.qImage);
+        try {
+            Intent intent = getIntent();
+            if(intent.getBooleanExtra("Correct",false))
+                return;
+        }
+        catch(Exception e){
+
+        }
+
         //  String name = sharedPreferences.getString("Name" + element, "Borat");
         //  String urlAdd = sharedPreferences.getString("ImageUrl"+element, "url");
 
         profileMemory = new Profile[5];
-        boolean next = true; //
+        next = true; //
         boolean correct;
         //  gameType = gametype[0];
         size = sharedPreferences.getInt("Count", 0);
@@ -67,26 +81,16 @@ public class Question1Activity extends ActionBarActivity {
 
         int roundCount = 0; //keeps track of the rounds if we want to add a status bar
 
-        correct = this.playQuestion();
-        this.askNext();
+        playQuestion();
 
-        while (next == true)   {
-            this.playQuestion();
-            this.askNext();
-            roundCount += 1;
 
-            if (roundCount == 9) {
-                statusBar();
-                roundCount = 0;
-            }
-        }
     }
 
     //plays one question
-    public boolean playQuestion() {
+    public void playQuestion() {
         Boolean correct;
-        Profile retrievedProfile; //the actual answer (element was chosen)
-        Profile userAnswer; //the answer
+//the actual answer (element was chosen)
+        String userAnswer; //the answer
         Profile[] choices;
 
         retrievedProfile = this.generateQuestion();
@@ -96,32 +100,14 @@ public class Question1Activity extends ActionBarActivity {
         b2.setText(choices[2].getName());
         b3.setText(choices[3].getName());
 
-        URL url = null;
         try {
-            url = new URL(retrievedProfile.getPicture());
-        } catch (MalformedURLException e) {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL
+                    (retrievedProfile.getPicture()).getContent());
+            questionImage.setImageBitmap(bitmap);
+        } catch (Exception e){
             e.printStackTrace();
         }
-        Bitmap bmp = null;
-        try {
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        questionImage.setImageBitmap(bmp);
 
-        // @TODO: Need to get user answer.
-        userAnswer = this.getUserAnswer();
-
-        if (userAnswer == retrievedProfile) {
-            correct = true;
-        } else {
-            correct = false;
-        }
-
-        this.updateDatabase(retrievedProfile, correct);
-        this.updateMemory(retrievedProfile);
-        return correct;
 
     }
 
@@ -189,12 +175,9 @@ public class Question1Activity extends ActionBarActivity {
 
     }
 
-    private void askNext() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private Profile getUserAnswer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Boolean askNext() {
+        next = true;
+        return next;
     }
 
     private boolean isRepeat(Profile generatedProfile) {
@@ -206,11 +189,25 @@ public class Question1Activity extends ActionBarActivity {
 
         return false;
     }
-    public void buttonClicked(View view){
+
+    public void buttonClicked(View view){ ///--------Called when button pressed
         Button button = (Button)findViewById(view.getId());
+        textOnClicked = button.getText().toString();
+        Boolean correct;
+        // @TODO: Need to get user answer.
 
+        if (textOnClicked.equals(retrievedProfile.getName())) {
+            correct = true;
+        } else {
+            correct = false;
+        }
 
+        //this.updateDatabase(retrievedProfile, correct);
+        //this.updateMemory(retrievedProfile);
+        Profile retrievedProfile;
     }
+
+
 
     private void statusBar(){
         int red = 0;
@@ -283,7 +280,7 @@ public class Question1Activity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkAnswer(View view) {
+    public void correctAnswer(View view) {
         // previously invisible view
         View myView = findViewById(R.id.correctView);
 
