@@ -1,19 +1,29 @@
 package randhawa.deep.faceflash;
 
 import android.content.Context;
+<<<<<<< HEAD
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+=======
+import android.content.Intent;
+>>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.content.Intent;
+
+import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
+<<<<<<< HEAD
 import org.brickred.socialauth.Contact;
+=======
+
+>>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
 import java.util.List;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -24,10 +34,14 @@ public class LoginActivity extends FragmentActivity {
     SocialAuthAdapter adapter;
     Button linkedIn, fbButton;
     String userName = "";
+<<<<<<< HEAD
     private FBLoginFragment fbLoginFragment;
     SharedPreferences sharedPreferences;
     Editor editor;
     int count = 0;
+=======
+
+>>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,19 +99,27 @@ public class LoginActivity extends FragmentActivity {
 
         // Defines the event when the login was successful.
         @Override
+<<<<<<< HEAD
         public void onComplete(Bundle values){
            editor.putBoolean("isLoggedIn",true);
            adapter.getUserProfileAsync(new ProfileDataListener());
            adapter.getContactListAsync(new ContactDataListener());
+=======
+        public void onComplete(Bundle values) {
+            adapter.getUserProfileAsync(new ProfileDataListener());
+            adapter.getContactListAsync(new ContactDataListener());
+>>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
         }
+
         // Defines the event when the login was cancelled.
         @Override
-        public void onCancel(){
+        public void onCancel() {
             System.out.println("Operation was cancelled");
         }
+
         // Defines the event when the back button was pressed.
         @Override
-        public void onBack(){
+        public void onBack() {
             System.out.println("Operation was cancelled");
         }
 
@@ -108,36 +130,37 @@ public class LoginActivity extends FragmentActivity {
         }
     }
 
-       public class ProfileDataListener implements SocialAuthListener<Profile> {
+    public class ProfileDataListener implements SocialAuthListener<Profile> {
 
-           @Override
-           public void onExecute(String uName, Profile profile){
-               Profile profilemap = profile;
-               // Gets the username.
-               userName = profilemap.getFirstName() + " " +
-                       profilemap.getLastName();
-               String url = profile.getProfileImageURL();
-               System.out.println(url);
-               sender(userName, getApplicationContext());
-           }
+        @Override
+        public void onExecute(String uName, Profile profile) {
+            Profile profilemap = profile;
+            // Gets the username.
+            userName = profilemap.getFirstName() + " " +
+                    profilemap.getLastName();
+            String url = profile.getProfileImageURL();
+            System.out.println(url);
+            sender(userName, getApplicationContext());
+        }
 
-           public void sender(String name, Context context){
-               Intent intent = new Intent(LoginActivity.this,
-                       HomeScreenActivity.class);
-               String userNam = name;
-               intent.putExtra("useName", userNam);
-               startActivity(intent);
-           }
+        public void sender(String name, Context context) {
+            Intent intent = new Intent(LoginActivity.this,
+                    HomeScreenActivity.class);
+            String userNam = name;
+            intent.putExtra("useName", userNam);
+            startActivity(intent);
+        }
 
-           @Override
-           public void onError(SocialAuthError socialAuthError) {
-               System.out.println(socialAuthError.getMessage());
-           }
-       }
+        @Override
+        public void onError(SocialAuthError socialAuthError) {
+            System.out.println(socialAuthError.getMessage());
+        }
+    }
 
-       private final class ContactDataListener implements
-            SocialAuthListener{
+    private final class ContactDataListener implements
+            SocialAuthListener {
 
+<<<<<<< HEAD
            @Override
            public void onExecute(String s, Object o) {
                List<Contact> contactList = (List<Contact>)o;
@@ -170,3 +193,35 @@ public class LoginActivity extends FragmentActivity {
        }
 
 }
+=======
+           /*@Override
+           public void onExecute(String contacts, List t) {
+               List<Contact> contactsList = t;
+
+           } */
+
+        @Override
+        public void onExecute(String s, Object o) {
+            List<Contact> contactList = (List<Contact>) o;
+            if (contactList != null && contactList.size() > 0) {
+                for (Contact c : contactList) {
+                    Log.d("Custom-UI", "First Name = " + c.getFirstName());
+                    Log.d("Custom-UI", "Last Name = " + c.getLastName());
+                    if (c.getProfileImageURL() != null) {
+                        String url = c.getProfileImageURL();
+                        System.out.println(url);
+                    } else {
+                        System.out.println("Tussed out");
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onError(SocialAuthError socialAuthError) {
+            System.out.println(socialAuthError.getMessage());
+        }
+    }
+
+}
+>>>>>>> 8fc827bda8bea9a8b20783dd00c2b3ea23a3c0f4
