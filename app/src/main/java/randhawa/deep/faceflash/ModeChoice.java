@@ -1,11 +1,14 @@
 package randhawa.deep.faceflash;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 
 public class ModeChoice extends ActionBarActivity {
@@ -15,11 +18,30 @@ public class ModeChoice extends ActionBarActivity {
     -take 4 random names
 
      */
+
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_choice);
-    }
+        sharedPreferences = getSharedPreferences("randhawa" +
+                ".deep" +
+                ".faceflash", MODE_PRIVATE);
+        /*int count = sharedPreferences.getInt("Count", 0);
+        System.out.println(count);
+        for (int i = 0; i < count;i++){
+            System.out.println(sharedPreferences.getString("Name"+i,
+                    "Base Case"));
+            System.out.println(sharedPreferences.getString("ImageUrl"+i,
+                    "Base Case"));
+            System.out.println(sharedPreferences.getInt("Number of times " +
+                            "guessed right"+i,0));
+            System.out.println(sharedPreferences.getInt("Number of times " +
+                            "guessed wrong"+i,0)); */
+        int count = sharedPreferences.getInt("Count", 0);
+        int[] indexArray = new int[count];
+        }
 
 
     @Override

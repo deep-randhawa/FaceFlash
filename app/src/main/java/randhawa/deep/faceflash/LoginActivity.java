@@ -33,19 +33,27 @@ public class LoginActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        adapter = new SocialAuthAdapter(new ResponseListener());
-        linkedIn = (Button) findViewById(R.id.linkedin);
-        fbButton = (Button) findViewById(R.id.facebook_auth_button);
         sharedPreferences = getSharedPreferences("randhawa" +
                 ".deep" +
                 ".faceflash", MODE_PRIVATE);
+        if(sharedPreferences.getBoolean("isLoggedIn", false)){
+            Intent intent = new Intent(this, HomeScreenActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        adapter = new SocialAuthAdapter(new ResponseListener());
+        linkedIn = (Button) findViewById(R.id.linkedin);
+        fbButton = (Button) findViewById(R.id.facebook_auth_button);
+
         final Bundle save = savedInstanceState;
+        editor = sharedPreferences.edit();
         if(sharedPreferences.getBoolean("ifFirst", true)){
-            editor = sharedPreferences.edit();
+
             editor.putBoolean("ifFirst", false);
             editor.putBoolean("isLoggedIn", false);
             editor.commit();
         }
+
 
         fbButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +95,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         public void onComplete(Bundle values){
            editor.putBoolean("isLoggedIn",true);
+           editor.commit();
            adapter.getUserProfileAsync(new ProfileDataListener());
            adapter.getContactListAsync(new ContactDataListener());
         }
@@ -148,17 +157,17 @@ public class LoginActivity extends FragmentActivity {
 
                        if (c.getProfileImageURL() != null) {
                            String url = c.getProfileImageURL();
-                           editor = sharedPreferences.edit();
-                           editor.putString("Name"+count, userName);
+                            editor.putString("Name"+count, userName);
                            editor.putString("ImageUrl"+count, url);
                            editor.putInt("Number of times guessed right"+count, 0);
                            editor.putInt("Number of times guessed wrong"+count, 0);
-                           editor.commit();
                            count ++;
+                           System.out.println(userName);
+                           System.out.println(count);
                        }
-                       else {
-                           continue;
-                       }
+
+                   editor.putInt("Count", count);
+                   editor.commit();
                    }
                }
            }

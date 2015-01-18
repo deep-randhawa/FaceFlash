@@ -106,6 +106,7 @@ public class FBLoginFragment extends Fragment {
                 public void onCompleted(Response response) {
                     try {
                         JSONArray jsonArray = new JSONArray(response.toString());
+                        System.out.println(jsonArray);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
