@@ -1,7 +1,9 @@
 package Fragments;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -111,6 +113,11 @@ public class FBLoginFragment extends Fragment {
                     // takes us to homescreen
                     Intent intent = new Intent(getActivity(), HomeScreenActivity.class);
                     startActivity(intent);
+
+                    SharedPreferences prefs = getActivity().getSharedPreferences("randhawa.deep.faceflash", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("FB_Response", response.toString());
+                    editor.commit();
                 }
             });
             request.executeAsync();

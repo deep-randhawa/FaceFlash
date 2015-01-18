@@ -2,6 +2,7 @@ package randhawa.deep.faceflash;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,13 +17,33 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import com.facebook.model.GraphObject;
+
+import java.util.ArrayList;
+
 
 public class Question1Activity extends ActionBarActivity {
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question1);
+
+        preferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
+        ArrayList<tmpProfile> arrayList = new ArrayList<tmpProfile>();
+        String response = preferences.getString("FB_Response", null);
+        while (response.indexOf("https") != -1) {
+            response = response.substring(response.indexOf("https"));
+            String url = response.substring(response.indexOf("https"), response.indexOf("\""));
+            response = response.substring(response.indexOf("name") + "name".length() + 3);
+
+            String name = response.substring(0, response.indexOf("\""));
+            response = response.substring(response.indexOf("\""));
+            tmpProfile newPerson = new tmpProfile(name, url);
+            arrayList.add(newPerson);
+        }
     }
 
 
@@ -88,4 +109,30 @@ public class Question1Activity extends ActionBarActivity {
 
     }
 
+}
+
+class tmpProfile {
+    String name;
+    String ImageURL;
+
+    public tmpProfile(String name, String URL) {
+        this.name = name;
+        this.ImageURL = URL;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImageURL() {
+        return ImageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
+    }
 }

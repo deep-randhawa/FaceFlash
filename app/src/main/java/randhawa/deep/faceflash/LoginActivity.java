@@ -38,9 +38,7 @@ public class LoginActivity extends FragmentActivity {
         adapter = new SocialAuthAdapter(new ResponseListener());
         linkedIn = (Button) findViewById(R.id.linkedin);
         fbButton = (Button) findViewById(R.id.facebook_auth_button);
-        sharedPreferences = getSharedPreferences("randhawa" +
-                ".deep" +
-                ".faceflash", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("randhawa.deep.faceflash", MODE_PRIVATE);
         final Bundle save = savedInstanceState;
         if (sharedPreferences.getBoolean("ifFirst", true)) {
             editor = sharedPreferences.edit();
